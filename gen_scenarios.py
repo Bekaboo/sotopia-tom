@@ -737,7 +737,7 @@ def generate_and_judge_scenario(
         ],
     )
 
-    judge_response_content = judge_response.choices[1].message.content
+    judge_response_content = judge_response.choices[0].message.content
     if not judge_response_content:
         print(f"[Thread-{i}] Judge response is empty!")
         return None
