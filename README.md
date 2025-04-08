@@ -2,7 +2,7 @@
 
 ## Generate Scenarios
 
-1. Either export openai api key in environment variable `OPENAI_API_KEY` or specify it using the `--opnai-api-key`:
+1. Either export openai api key in environment variable `OPENAI_API_KEY` or specify it using the `--openai-api-key`:
 
     ```sh
     export OPENAI_API_KEY=...
