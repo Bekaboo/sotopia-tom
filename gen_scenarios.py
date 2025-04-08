@@ -641,9 +641,49 @@ BAD_EXAMPLE_JSON_JUDGE = """
 
 TOTAL_SCENARIOS = 30
 MAX_WORKERS = 3
+MAX_JSON_AUTOCORRECT = 3
 
 
-def generate_and_judge_scenario(i: int, client, domain: str) -> dict | None:
+def json_loads_validate(json_str: str, client: openai.OpenAI, i: int) -> dict | None:
+    """
+    Helper to safely load JSON string with error handling and automatic correction.
+    """
+    # Initial parse attempt
+    try:
+        return json.loads(json_str)
+    except json.decoder.JSONDecodeError:
+        # Retry to fix JSON format
+        for attempt in range(MAX_JSON_AUTOCORRECT):
+            print(
+                f"[Thread-{i}] Attempt {attempt + 1}/{MAX_JSON_AUTOCORRECT} to fix JSON..."
+            )
+            correction_response = client.chat.completions.create(
+                model="o1",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": f"Fix this JSON format while preserving all content:\n\n{json_str}",
+                    }
+                ],
+            )
+
+            content = correction_response.choices[0].message.content
+            corrected_json = content.strip() if content else ""
+
+            try:
+                return json.loads(corrected_json)
+            except json.decoder.JSONDecodeError:
+                if attempt == MAX_JSON_AUTOCORRECT - 1:
+                    print(
+                        f"[Thread-{i}] Failed to fix JSON after {MAX_JSON_AUTOCORRECT} attempts"
+                    )
+
+    return None
+
+
+def generate_and_judge_scenario(
+    i: int, client: openai.OpenAI, domain: str
+) -> dict | None:
     """
     Generate and judge given scenario
     """
@@ -703,7 +743,10 @@ def generate_and_judge_scenario(i: int, client, domain: str) -> dict | None:
         return None
 
     scenario_json_str = judge_response_content.strip()
-    scenario_obj = json.loads(scenario_json_str)
+    scenario_obj = json_loads_validate(scenario_json_str, client, i)
+
+    if not scenario_obj:
+        return None
 
     print(f"[Thread-{i}] {domain} scenario generated and validated")
     return scenario_obj
