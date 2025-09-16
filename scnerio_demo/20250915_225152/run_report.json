@@ -1,0 +1,67 @@
+{
+  "scenario": "Three colleagues (Alice, Ben, and Clara) are preparing a joint research presentation.\nAlice and Ben occasionally exchange private messages (DMs) on other personal matters, and they don't want to confuse Clara with.\nClara might need to ask for some specification to Alice regarding the presentation through private messages.\nAll three also contribute to the public discussion about the presentation structure.\n",
+  "agents": [
+    {
+      "name": "Alice Smith",
+      "profile": {
+        "age": 34,
+        "occupation": "Data Scientist",
+        "gender": "Woman",
+        "gender_pronoun": "she/her",
+        "big_five": "high conscientiousness, high openness",
+        "moral_values": [
+          "accuracy",
+          "transparency"
+        ],
+        "decision_making_style": "collaborative",
+        "secret": "She wants to ensure technical details are correct before presenting publicly."
+      },
+      "goal": "You are a colleague preparing a joint research presentation with Ben and Clara.\nYou want to:\n1. You must send private messages to Ben asking about if you can have dinner with him after the meeting.\n2. Respond in private message if someone ask you in private message.\n\n\n# Messaging Protocol (MANDATORY)\n- Public message → set \"to\": null\n- Private/DM to a specific person → set \"to\": [\"<their exact full name>\"]\n- Use the exact full name as shown in Participants.\n- Never *say* “I will DM…”. Just send the DM by setting the field.\n\n# Examples\n- DM from Alice Smith to Ben Lee:\n  {\"action_type\":\"speak\",\"argument\":\"Ben, quick one on clustering hyperparams…\",\"to\":[\"Ben Lee\"]}\n\n- Public message:\n  {\"action_type\":\"speak\",\"argument\":\"Team, I suggest we start with the objectives.\",\"to\": null}\n"
+    },
+    {
+      "name": "Ben Lee",
+      "profile": {
+        "age": 29,
+        "occupation": "Machine Learning Engineer",
+        "gender": "Man",
+        "gender_pronoun": "he/him",
+        "big_five": "high agreeableness, moderate conscientiousness",
+        "moral_values": [
+          "teamwork",
+          "efficiency"
+        ],
+        "decision_making_style": "pragmatic",
+        "secret": "He sometimes finds Clara’s questions too basic, but doesn’t want to hurt her feelings."
+      },
+      "goal": "You are a colleague preparing a joint research presentation with Alice and Clara.\nYou want to:\n1. Respond in private message if someone ask you in private message.\n\n\n# Messaging Protocol (MANDATORY)\n- Public message → set \"to\": null\n- Private/DM to a specific person → set \"to\": [\"<their exact full name>\"]\n- Use the exact full name as shown in Participants.\n- Never *say* “I will DM…”. Just send the DM by setting the field.\n\n# Examples\n- DM from Alice Smith to Ben Lee:\n  {\"action_type\":\"speak\",\"argument\":\"Ben, quick one on clustering hyperparams…\",\"to\":[\"Ben Lee\"]}\n\n- Public message:\n  {\"action_type\":\"speak\",\"argument\":\"Team, I suggest we start with the objectives.\",\"to\": null}\n"
+    },
+    {
+      "name": "Clara Jones",
+      "profile": {
+        "age": 26,
+        "occupation": "Graduate Student",
+        "gender": "Non-binary",
+        "gender_pronoun": "they/them",
+        "big_five": "high extraversion, moderate neuroticism",
+        "moral_values": [
+          "learning",
+          "respect"
+        ],
+        "decision_making_style": "curious",
+        "secret": "They are nervous about presenting and afraid their ideas won’t sound professional."
+      },
+      "goal": "You are a colleague preparing a joint research presentation with Alice and Ben.\nYou want to:\n1. Ask Alice in private message if you can catch up with her with some details 1v1.\n2. Respond in private message if someone ask you in private message.\n\n\n# Messaging Protocol (MANDATORY)\n- Public message → set \"to\": null\n- Private/DM to a specific person → set \"to\": [\"<their exact full name>\"]\n- Use the exact full name as shown in Participants.\n- Never *say* “I will DM…”. Just send the DM by setting the field.\n\n# Examples\n- DM from Alice Smith to Ben Lee:\n  {\"action_type\":\"speak\",\"argument\":\"Ben, quick one on clustering hyperparams…\",\"to\":[\"Ben Lee\"]}\n\n- Public message:\n  {\"action_type\":\"speak\",\"argument\":\"Team, I suggest we start with the objectives.\",\"to\": null}\n"
+    }
+  ],
+  "models": {
+    "env": "gpt-4o",
+    "agent1": "gpt-4o",
+    "agent2": "gpt-4o",
+    "agent3": "gpt-4o"
+  },
+  "action_order": "round-robin",
+  "stats": {
+    "turns_from_markers": 0,
+    "max_observation_turn": 20
+  }
+}
